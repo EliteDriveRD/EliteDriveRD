@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Drive RD | Concesionario de Vehículos</title>
+    <style>
+        /* --- ESTILOS GLOBALES & VARIABLES --- */
+        :root {
+            --primary-color: #111111;
+            --accent-color: #d4af37; /* Dorado elegante */
+            --accent-hover: #aa8c2c;
+            --bg-light: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Hace que el desplazamiento sea suave al hacer clic en los botones */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- ENCABEZADO Y NAVEGACIÓN --- */
+        header {
+            background-color: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo h1 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- CONTENEDOR ESTRUCTURADO DE CATEGORÍAS --- */
+        .main-content {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .category-block {
+            margin-bottom: 60px;
+        }
+
+        .category-header {
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .category-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- REJILLA DE TARJETAS (GRID) --- */
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .vehicle-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .vehicle-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .vehicle-title {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .vehicle-specs {
+            list-style: none;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .vehicle-specs li {
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .vehicle-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: auto;
+            margin-bottom: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .btn-purchase {
+            display: block;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-purchase:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* --- SECCIÓN DE CONTACTO --- */
+        .contact-container {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 60px 20px;
+            margin-top: 8px;
+        }
+
+        .contact-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-wrapper { grid-template-columns: 1fr; }
+        }
+
+        .contact-info-panel h3, .contact-form-panel h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+        }
+
+        .info-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .contact-link {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s, text-decoration 0.2s;
+            display: inline-block;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #222222;
+            border: 1px solid #333333;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+        }
+
+        footer {
+            background-color: #0a0a0a;
+            color: #666666;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.85rem;
+            border-top: 1px solid #111111;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Elite Drive RD</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#sedanes">Sedanes</a></li>
+                <li><a href="#suvs">SUVs & Jeepetas</a></li>
+                <li><a href="#urbanos">Económicos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Sección de Introducción (Hero) -->
+    <section class="hero">
+        <h2>Encuentra tu Vehículo Ideal</h2>
+        <p>Catálogo de opciones confiables, comerciales y eficientes en la República Dominicana.</p>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+
+        <!-- CATEGORÍA 1: SEDANES -->
+        <section id="sedanes" class="category-block">
+            <div class="category-header">
+                <h3>Categoría: Sedanes Familiares y Ejecutivos</h3>
+                <p>Comodidad, elegancia y excelente consumo de combustible para el día a día.</p>
+            </div>
+            <div class="vehicles-grid">
+                <!-- 1 -->
+                <div class="vehicle-card">
+                    <img src="img/lla.jpg" alt="Toyota Corolla LE 2021" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Toyota Corolla LE</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2021</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 21,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="vehicle-card">
+                    <img src="img/civic.jpg" alt="Honda Civic LX 2020" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Honda Civic LX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2020</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 19,800</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="vehicle-card">
+                    <img src="img/sonata.jpg" alt="Hyundai Sonata New Rise 2019" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Hyundai Sonata New Rise</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2019</strong></li>
+                            <li><span>Combustible:</span> <strong>GLP de Fábrica</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 15,400</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 4 -->
+                <div class="vehicle-card">
+                    <img src="img/k5.jpg" alt="Kia K5 MX 2020" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Kia K5 MX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2020</strong></li>
+                            <li><span>Combustible:</span> <strong>GLP de Fábrica</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 17,900</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 5 -->
+                <div class="vehicle-card">
+                    <img src="img/sentra.jpg" alt="Nissan Sentra SV 2021" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Nissan Sentra SV</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2021</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 18,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 2: SUVS & JEEPETAS -->
+        <section id="suvs" class="category-block">
+            <div class="category-header">
+                <h3>Categoría: SUVs y Jeepetas</h3>
+                <p>Vehículos altos, espaciosos, ideales para la familia y viajes al interior.</p>
+            </div>
+            <div class="vehicles-grid">
+                <!-- 6 -->
+                <div class="vehicle-card">
+                    <img src="img/crv.jpg" alt="Honda CR-V EX 2018" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Honda CR-V EX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2018</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 23,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 7 -->
+                <div class="vehicle-card">
+                    <img src="img/rav4.jpg" alt="Toyota RAV4 XLE 2019" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Toyota RAV4 XLE</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2019</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 27,900</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 8 -->
+                <div class="vehicle-card">
+                    <img src="img/tucson.jpg" alt="Hyundai Tucson GL 2018" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Hyundai Tucson GL</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2018</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 18,200</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 9 -->
+                <div class="vehicle-card">
+                    <img src="img/tage.jpg" alt="Kia Sportage LX 2019" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Kia Sportage LX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2019</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 19,400</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 10 -->
+                <div class="vehicle-card">
+                    <img src="img/cx5.jpg" alt="Mazda CX-5 Touring 2018" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Mazda CX-5 Touring</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2018</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 20,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 3: URBANOS & ECONÓMICOS -->
+        <section id="urbanos" class="category-block">
+            <div class="category-header">
+                <h3>Categoría: Urbanos y Económicos</h3>
+                <p>Vehículos compactos perfectos para circular en la ciudad y estacionar fácilmente.</p>
+            </div>
+            <div class="vehicles-grid">
+                <!-- 11 -->
+                <div class="vehicle-card">
+                    <img src="img/picanto.jpg" alt="Kia Picanto EX 2020" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Kia Picanto EX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2020</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 11,900</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 12 -->
+                <div class="vehicle-card">
+                    <img src="img/spark.jpg" alt="Chevrolet Spark LS 2019" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Chevrolet Spark LS</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2019</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 9,800</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 13 -->
+                <div class="vehicle-card">
+                    <img src="img/i10.jpg" alt="Hyundai Grand i10 GL 2020" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Hyundai Grand i10 GL</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2020</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 12,300</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 14 -->
+                <div class="vehicle-card">
+                    <img src="img/swift.jpg" alt="Suzuki Swift GLX 2019" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Suzuki Swift GLX</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2019</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 13,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+                <!-- 15 -->
+                <div class="vehicle-card">
+                    <img src="img/passo.jpg" alt="Toyota Passo X 2018" class="vehicle-image">
+                    <div class="vehicle-body">
+                        <h4 class="vehicle-title">Toyota Passo X</h4>
+                        <ul class="vehicle-specs">
+                            <li><span>Año:</span> <strong>2018</strong></li>
+                            <li><span>Combustible:</span> <strong>Gasolina</strong></li>
+                            <li><span>Transmisión:</span> <strong>Automática</strong></li>
+                        </ul>
+                        <div class="vehicle-price">USD$ 9,500</div>
+                        <a href="#contacto" class="btn-purchase">Comprar Vehículo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+  <!-- SECCIÓN DE CONTACTO -->
+    <section id="contacto" class="contact-container">
+        <div class="contact-wrapper">
+            <div class="contact-info-panel">
+                <h3>Contacto</h3>
+                <div class="info-item">
+                    <h4>Teléfono / WhatsApp</h4>
+                    <!-- Redirige directamente a un chat de WhatsApp con un mensaje predeterminado -->
+                    <a href="https://wa.me/18098394983?text=Hola,%20estoy%20interesado%20en%20uno%20de%20sus%20vehículos" target="_blank" class="contact-link">+1 (809) 839-4983</a>
+                </div>
+                <div class="info-item">
+                    <h4>Correo Electrónico</h4>
+                    <!-- Abre la aplicación de correo predeterminada del usuario -->
+                   <a href="https://mail.google.com/mail/?view=cm&fs=1&to=toribiorandy019@gmail.com" target="_blank" class="contact-link">toribiorandy019@gmail.com</a>
+                </div>
+                <div class="info-item">
+                    <h4>Ubicados en:</h4>
+                    <!-- Abre Google Maps con la ubicación en una pestaña nueva -->
+                    <a href="https://maps.google.com/?q=Santo+Domingo,+República+Dominicana" target="_blank" class="contact-link" style="color: #cccccc; text-decoration: none;">Santo Domingo, República Dominicana</a>
+                </div>
+            </div>
+            <div class="contact-form-panel">
+                <h3>Solicitar Información</h3>
+                <!-- Puedes agregar el atributo action="tu_script.php" aquí más adelante -->
+                <form class="contact-form" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="nombre" placeholder="Tu Nombre Completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="correo" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="mensaje" rows="4" placeholder="¿En cuál vehículo estás interesado?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Consulta</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Elite Drive RD. Por: Randy Peña 4toA INF
+    </footer>
+
+</body>
+</html>
